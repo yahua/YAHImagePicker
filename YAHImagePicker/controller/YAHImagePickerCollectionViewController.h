@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <AssetsLibrary/AssetsLibrary.h>
+@class YAHAlbumModel;
 
 @interface YAHImagePickerCollectionViewController : UIViewController
 
 @property (nonatomic, copy) void(^sucessBlock)();
 
-- (instancetype)initWith:(ALAssetsGroup *)assetsGroup;
+- (instancetype)initWith:(YAHAlbumModel *)assetsGroup;
 
 @end

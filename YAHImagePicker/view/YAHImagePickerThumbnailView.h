@@ -7,28 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <AssetsLibrary/AssetsLibrary.h>
 
-typedef NS_ENUM(NSInteger, YAHThumbnailType) {
-    ThumbnailSingle,	// 单图模式
-    ThumbnailMultiple	// 多图模式（目前为3张）
-};
+@class YAHAlbumModel;
+@class YAHPhotoModel;
 
 @interface YAHImagePickerThumbnailView : UIView
 
 /**
- *    缩略图模式，默认为多图模式
- */
-@property (nonatomic, assign) YAHThumbnailType thumbnailMode;
-
-/**
  *    相册，用以多图模式或者单图模式，时间轴上取当前时间往前的若干张图片
  */
-@property (nonatomic, strong) ALAssetsGroup *assetsGroup;
+@property (nonatomic, strong) YAHAlbumModel *assetsGroup;
 
 /**
  *    照片信息，用以单图模式
  */
-@property (nonatomic, strong) ALAsset *asset;
+@property (nonatomic, strong) YAHPhotoModel *asset;
 
 @end

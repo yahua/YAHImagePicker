@@ -19,6 +19,11 @@
 
 @implementation YAHImagePickerRootViewController
 
+- (void)dealloc
+{
+    
+}
+
 - (instancetype)init
 {
     self = [super init];
@@ -74,7 +79,7 @@
 
 #pragma mark - Custom Accessors
 
-- (void)setSelectAssets:(NSArray *)selectAssets {
+- (void)setSelectAssets:(NSArray<YAHPhotoModel *> *)selectAssets {
     
     _selectAssets = selectAssets;
     [[YAHImagePeckerAssetsData shareInstance] addAssetWithArray:selectAssets];

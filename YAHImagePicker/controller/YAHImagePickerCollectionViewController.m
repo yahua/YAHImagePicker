@@ -8,7 +8,7 @@
 
 #import "YAHImagePickerCollectionViewController.h"
 #import "YAHPreSelectAssetViewController.h"
-#import "YAHAssetCollectionViewCell.h"
+#import "YAHAssetCollectionCell.h"
 
 #import "YAHImagePeckerAssetsData.h"
 #import "NSObject+FBKVOController.h"
@@ -21,14 +21,19 @@ UICollectionViewDataSource>
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) YAHPreSelectAssetViewController *preSelectCollectionViewController;
 
-@property (nonatomic, strong) ALAssetsGroup *assetsGroup;
+@property (nonatomic, strong) YAHAlbumModel *assetsGroup;
 @property (nonatomic, strong) NSArray *assets;
 
 @end
 
 @implementation YAHImagePickerCollectionViewController
 
-- (instancetype)initWith:(ALAssetsGroup *)assetsGroup {
+- (void)dealloc
+{
+    
+}
+
+- (instancetype)initWith:(YAHAlbumModel *)assetsGroup {
     
     self = [super init];
     if (self) {
@@ -51,8 +56,7 @@ UICollectionViewDataSource>
     layout.minimumLineSpacing           = 2.0;
     
     self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
-    [self.collectionView registerClass:[YAHAssetCollectionViewCell class]
-            forCellWithReuseIdentifier:@"YHAssetCollectionViewCell"];
+    [self.collectionView registerNib:[UINib nibWithNibName:@"YAHAssetCollectionCell" bundle:nil] forCellWithReuseIdentifier:@"YAHAssetCollectionCell"];
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     self.collectionView.allowsMultipleSelection = YES;
@@ -73,10 +77,10 @@ UICollectionViewDataSource>
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-    self.title = [self.assetsGroup valueForProperty:ALAssetsGroupPropertyName];
+    self.title = self.assetsGroup.albumName;
     
     NSInteger i = 0;
-    for (ALAsset *assetT in self.assets) {
+    for (YAHPhotoModel *assetT in self.assets) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
         if ([[YAHImagePeckerAssetsData shareInstance] isContainAsset:assetT]) {
             [self.collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
@@ -118,12 +122,12 @@ UICollectionViewDataSource>
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *CellIdentifier = @"YHAssetCollectionViewCell";
+    static NSString *CellIdentifier = @"YAHAssetCollectionCell";
     
-    YAHAssetCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
+    YAHAssetCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // load the asset for this cell
-    ALAsset *asset = self.assets[indexPath.row];
+    YAHPhotoModel *asset = self.assets[indexPath.row];
     [cell bind:asset];
     
     return cell;
@@ -136,13 +140,15 @@ UICollectionViewDataSource>
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    ALAsset *asset = self.assets[indexPath.row];
+    YAHAssetCollectionCell *cell = (YAHAssetCollectionCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    YAHPhotoModel *asset = self.assets[indexPath.row];
+    asset.thumbImage = cell.imageView.image;
     [[YAHImagePeckerAssetsData shareInstance] addAsset:asset];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    ALAsset *asset = self.assets[indexPath.row];
+    YAHPhotoModel *asset = self.assets[indexPath.row];
     [[YAHImagePeckerAssetsData shareInstance] removeAsset:asset];
 }
 
@@ -171,6 +177,13 @@ UICollectionViewDataSource>
         
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         strongSelf.navigationItem.rightBarButtonItem.enabled = [[YAHImagePeckerAssetsData shareInstance] isSelectOneMore];
+        //删除
+        YAHPhotoModel *asset = [[YAHImagePeckerAssetsData shareInstance].changeDic objectForKey:[@(YHSelectAssetsChangeDelete) stringValue]];
+        if (asset) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[strongSelf.assets indexOfObject:asset] inSection:0];
+            [strongSelf.collectionView deselectItemAtIndexPath:indexPath animated:NO];
+            
+        }
     }];
 }
 

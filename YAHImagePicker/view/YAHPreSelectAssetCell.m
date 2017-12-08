@@ -7,6 +7,7 @@
 //
 
 #import "YAHPreSelectAssetCell.h"
+#import "YAHPhotoTools.h"
 
 @interface YAHPreSelectAssetCell ()
 
@@ -22,6 +23,7 @@
     if (self) {
         // Create a image view
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.contentView.bounds];
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
         imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         imageView.layer.cornerRadius = 3;
         imageView.layer.masksToBounds = YES;
@@ -33,14 +35,19 @@
 }
 
 #pragma mark - setter
-- (void)setAsset:(ALAsset *)asset {
+- (void)setAsset:(YAHPhotoModel *)asset {
     
     if (_asset != asset) {
         _asset = asset;
         
         // Update view
-        UIImage *image = [UIImage imageWithCGImage:[asset thumbnail]];
-        self.imageView.image = image;
+        if (asset.thumbImage) {
+            self.imageView.image = asset.thumbImage;
+        }else {
+            [YAHPhotoTools getPhotoForPHAsset:asset.asset size:CGSizeMake(YHPreSelectAssetCellWidth*1.4, YHPreSelectAssetCellWidth*1.4) completion:^(UIImage *image, NSDictionary *info) {
+                self.imageView.image = image;
+            }];
+        }
     }
 }
 

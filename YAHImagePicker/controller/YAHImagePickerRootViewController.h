@@ -30,7 +30,7 @@
 /**
  *  选中的asset（外部传入）， 读取的时候不是这个 使用sucessBlock回调读取选中的assets
  */
-@property (nonatomic, copy) NSArray *selectAssets;
+@property (nonatomic, copy) NSArray<YAHPhotoModel *> *selectAssets;
 /**
  *  最大选取个数   默认9个
  */

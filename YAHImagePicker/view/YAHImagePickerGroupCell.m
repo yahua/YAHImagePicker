@@ -9,6 +9,7 @@
 #import "YAHImagePickerGroupCell.h"
 #import "YAHImagePickerThumbnailView.h"
 #import "YAHImagePickerDefines.h"
+#import "YAHAlbumModel.h"
 
 @interface YAHImagePickerGroupCell ()
 
@@ -29,7 +30,8 @@
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
         // Create thumbnail view
-        YAHImagePickerThumbnailView *thumbnailView = [[YAHImagePickerThumbnailView alloc] initWithFrame:CGRectMake(24, 8, 60, 64)];
+        CGFloat top = 10;
+        YAHImagePickerThumbnailView *thumbnailView = [[YAHImagePickerThumbnailView alloc] initWithFrame:CGRectMake(24, top, YHImagePickerGroupCellHeight-2*top, YHImagePickerGroupCellHeight-2*top)];
         thumbnailView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
         [self.contentView addSubview:thumbnailView];
         self.thumbnailView = thumbnailView;
@@ -57,20 +59,20 @@
 
 #pragma mark - Custom Accessors
 
-- (void)setAssetsGroup:(ALAssetsGroup *)assetsGroup {
+- (void)setAssetsGroup:(YAHAlbumModel *)assetsGroup {
     _assetsGroup = assetsGroup;
     
     // Update thumbnail view
     self.thumbnailView.assetsGroup = self.assetsGroup;
     
     // Update label
-    self.nameLabel.text = [self.assetsGroup valueForProperty:ALAssetsGroupPropertyName];
+    self.nameLabel.text = self.assetsGroup.albumName;
     CGSize size = [self sizeWithFont:self.nameLabel.font byHeight:CGRectGetHeight(self.nameLabel.frame) string:self.nameLabel.text];
     
     CGRect rect = self.countLabel.frame;
     rect.origin.x = CGRectGetMinX(self.nameLabel.frame) + size.width + 15;
     self.countLabel.frame = rect;
-    self.countLabel.text = [NSString stringWithFormat:@"( %ld )", (long)self.assetsGroup.numberOfAssets];
+    self.countLabel.text = [NSString stringWithFormat:@"( %td )", self.assetsGroup.count];
     
     [self setNeedsDisplay];
 }

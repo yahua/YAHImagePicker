@@ -29,6 +29,11 @@ UICollectionViewDataSource>
 
 @implementation YAHPreSelectAssetViewController
 
+- (void)dealloc
+{
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -53,8 +58,12 @@ UICollectionViewDataSource>
     [self.view addSubview:self.collectionView];
     
     [self.view addSubview:self.comfirmButton];
+    //横线
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 0.5)];
+    line.backgroundColor = [UIColor grayColor];
+    [self.view addSubview:line];
     
-    //
+    //监听
     [self addSelectAssetsArrayObserver];
 }
 
@@ -80,7 +89,7 @@ UICollectionViewDataSource>
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     YAHPreSelectAssetCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    ALAsset *asset = [YAHImagePeckerAssetsData shareInstance].selectAssetsArray[indexPath.row];
+    YAHPhotoModel *asset = [YAHImagePeckerAssetsData shareInstance].selectAssetsArray[indexPath.row];
     cell.asset = asset;
     return cell;
 }
@@ -156,19 +165,19 @@ UICollectionViewDataSource>
         
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         if ([[YAHImagePeckerAssetsData shareInstance].changeDic objectForKey:[@(YHSelectAssetsChangeAddOverFlow) stringValue]]) {
-            [self.comfirmButton shake:10   // 10 times
+            [strongSelf.comfirmButton shake:10   // 10 times
                             withDelta:2    // 2 points wide
                              andSpeed:0.03 // 30ms per shake
              ];
         }else {
-            [strongSelf.comfirmButton setTitle:[self confirmButtonTitle] forState:UIControlStateNormal];
+            [strongSelf.comfirmButton setTitle:[strongSelf confirmButtonTitle] forState:UIControlStateNormal];
             strongSelf.comfirmButton.enabled = [[YAHImagePeckerAssetsData shareInstance] isSelectOneMore];
             [strongSelf.collectionView reloadData];
             
-            NSInteger totalItems = [self.collectionView numberOfItemsInSection:0];
+            NSInteger totalItems = [strongSelf.collectionView numberOfItemsInSection:0];
             // Prevents crash if totalRows = 0 (when the album is empty).
             if (totalItems > 0) {
-                [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:totalItems-1 inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+                [strongSelf.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:totalItems-1 inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
             }
         }
     }];

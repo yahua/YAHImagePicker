@@ -27,10 +27,15 @@
 		19AFE1C21CEB0DFA00B68337 /* CTAssetsPickerChecked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 19AFE1AB1CEB0DFA00B68337 /* CTAssetsPickerChecked@2x.png */; };
 		19AFE1C31CEB0DFA00B68337 /* CTAssetsPickerVideo.png in Resources */ = {isa = PBXBuildFile; fileRef = 19AFE1AC1CEB0DFA00B68337 /* CTAssetsPickerVideo.png */; };
 		19AFE1C41CEB0DFA00B68337 /* CTAssetsPickerVideo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 19AFE1AD1CEB0DFA00B68337 /* CTAssetsPickerVideo@2x.png */; };
-		19AFE1C51CEB0DFA00B68337 /* YAHAssetCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AFE1B01CEB0DFA00B68337 /* YAHAssetCollectionViewCell.m */; };
 		19AFE1C61CEB0DFA00B68337 /* YAHImagePickerGroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AFE1B21CEB0DFA00B68337 /* YAHImagePickerGroupCell.m */; };
 		19AFE1C71CEB0DFA00B68337 /* YAHImagePickerThumbnailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AFE1B41CEB0DFA00B68337 /* YAHImagePickerThumbnailView.m */; };
 		19AFE1C81CEB0DFA00B68337 /* YAHPreSelectAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AFE1B61CEB0DFA00B68337 /* YAHPreSelectAssetCell.m */; };
+		2CB1D1FA1FD912BF001FF7B9 /* YAHAlbumModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CB1D1F91FD912BF001FF7B9 /* YAHAlbumModel.m */; };
+		2CB1D1FD1FD946EB001FF7B9 /* YAHPhotoTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CB1D1FC1FD946EB001FF7B9 /* YAHPhotoTools.m */; };
+		2CB1D2031FDA3814001FF7B9 /* YAHAssetCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CB1D2011FDA3814001FF7B9 /* YAHAssetCollectionCell.m */; };
+		2CB1D2041FDA3814001FF7B9 /* YAHAssetCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CB1D2021FDA3814001FF7B9 /* YAHAssetCollectionCell.xib */; };
+		2CB1D2081FDA3B8B001FF7B9 /* GBView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CB1D2071FDA3B8B001FF7B9 /* GBView.m */; };
+		2CB1D20B1FDA7893001FF7B9 /* YAHPhotoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CB1D20A1FDA7893001FF7B9 /* YAHPhotoModel.m */; };
 		4589EB192A57C665AA7E4242 /* libPods-ImagePickerDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 069E13A4F852685B30B0A9F4 /* libPods-ImagePickerDemo.a */; };
 /* End PBXBuildFile section */
 
@@ -70,14 +75,23 @@
 		19AFE1AB1CEB0DFA00B68337 /* CTAssetsPickerChecked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CTAssetsPickerChecked@2x.png"; sourceTree = "<group>"; };
 		19AFE1AC1CEB0DFA00B68337 /* CTAssetsPickerVideo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CTAssetsPickerVideo.png; sourceTree = "<group>"; };
 		19AFE1AD1CEB0DFA00B68337 /* CTAssetsPickerVideo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CTAssetsPickerVideo@2x.png"; sourceTree = "<group>"; };
-		19AFE1AF1CEB0DFA00B68337 /* YAHAssetCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YAHAssetCollectionViewCell.h; sourceTree = "<group>"; };
-		19AFE1B01CEB0DFA00B68337 /* YAHAssetCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YAHAssetCollectionViewCell.m; sourceTree = "<group>"; };
 		19AFE1B11CEB0DFA00B68337 /* YAHImagePickerGroupCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YAHImagePickerGroupCell.h; sourceTree = "<group>"; };
 		19AFE1B21CEB0DFA00B68337 /* YAHImagePickerGroupCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YAHImagePickerGroupCell.m; sourceTree = "<group>"; };
 		19AFE1B31CEB0DFA00B68337 /* YAHImagePickerThumbnailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YAHImagePickerThumbnailView.h; sourceTree = "<group>"; };
 		19AFE1B41CEB0DFA00B68337 /* YAHImagePickerThumbnailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YAHImagePickerThumbnailView.m; sourceTree = "<group>"; };
 		19AFE1B51CEB0DFA00B68337 /* YAHPreSelectAssetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YAHPreSelectAssetCell.h; sourceTree = "<group>"; };
 		19AFE1B61CEB0DFA00B68337 /* YAHPreSelectAssetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YAHPreSelectAssetCell.m; sourceTree = "<group>"; };
+		2CB1D1F81FD912BF001FF7B9 /* YAHAlbumModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YAHAlbumModel.h; sourceTree = "<group>"; };
+		2CB1D1F91FD912BF001FF7B9 /* YAHAlbumModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YAHAlbumModel.m; sourceTree = "<group>"; };
+		2CB1D1FB1FD946EB001FF7B9 /* YAHPhotoTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YAHPhotoTools.h; sourceTree = "<group>"; };
+		2CB1D1FC1FD946EB001FF7B9 /* YAHPhotoTools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YAHPhotoTools.m; sourceTree = "<group>"; };
+		2CB1D2001FDA3814001FF7B9 /* YAHAssetCollectionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YAHAssetCollectionCell.h; sourceTree = "<group>"; };
+		2CB1D2011FDA3814001FF7B9 /* YAHAssetCollectionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YAHAssetCollectionCell.m; sourceTree = "<group>"; };
+		2CB1D2021FDA3814001FF7B9 /* YAHAssetCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YAHAssetCollectionCell.xib; sourceTree = "<group>"; };
+		2CB1D2061FDA3B8B001FF7B9 /* GBView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBView.h; sourceTree = "<group>"; };
+		2CB1D2071FDA3B8B001FF7B9 /* GBView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBView.m; sourceTree = "<group>"; };
+		2CB1D2091FDA7893001FF7B9 /* YAHPhotoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YAHPhotoModel.h; sourceTree = "<group>"; };
+		2CB1D20A1FDA7893001FF7B9 /* YAHPhotoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YAHPhotoModel.m; sourceTree = "<group>"; };
 		7B3052807335DDB7E2746981 /* Pods-ImagePickerDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImagePickerDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ImagePickerDemo/Pods-ImagePickerDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		917ED82C6DC12795AEAB8ECC /* Pods-ImagePickerDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImagePickerDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-ImagePickerDemo/Pods-ImagePickerDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -153,12 +167,12 @@
 		19AFE1921CEB0DFA00B68337 /* controller */ = {
 			isa = PBXGroup;
 			children = (
-				19AFE1931CEB0DFA00B68337 /* YAHImagePickerCollectionViewController.h */,
-				19AFE1941CEB0DFA00B68337 /* YAHImagePickerCollectionViewController.m */,
 				19AFE1951CEB0DFA00B68337 /* YAHImagePickerRootViewController.h */,
 				19AFE1961CEB0DFA00B68337 /* YAHImagePickerRootViewController.m */,
 				19AFE1971CEB0DFA00B68337 /* YAHImagePickerViewController.h */,
 				19AFE1981CEB0DFA00B68337 /* YAHImagePickerViewController.m */,
+				19AFE1931CEB0DFA00B68337 /* YAHImagePickerCollectionViewController.h */,
+				19AFE1941CEB0DFA00B68337 /* YAHImagePickerCollectionViewController.m */,
 				19AFE1991CEB0DFA00B68337 /* YAHPreSelectAssetViewController.h */,
 				19AFE19A1CEB0DFA00B68337 /* YAHPreSelectAssetViewController.m */,
 			);
@@ -172,6 +186,12 @@
 				19AFE19D1CEB0DFA00B68337 /* YAHImagePeckerAssetsData.m */,
 				19AFE19E1CEB0DFA00B68337 /* YAHImagePickerDefines.h */,
 				19AFE19F1CEB0DFA00B68337 /* YAHImagePickerDefines.m */,
+				2CB1D2091FDA7893001FF7B9 /* YAHPhotoModel.h */,
+				2CB1D20A1FDA7893001FF7B9 /* YAHPhotoModel.m */,
+				2CB1D1F81FD912BF001FF7B9 /* YAHAlbumModel.h */,
+				2CB1D1F91FD912BF001FF7B9 /* YAHAlbumModel.m */,
+				2CB1D1FB1FD946EB001FF7B9 /* YAHPhotoTools.h */,
+				2CB1D1FC1FD946EB001FF7B9 /* YAHPhotoTools.m */,
 			);
 			path = logic;
 			sourceTree = "<group>";
@@ -205,8 +225,10 @@
 		19AFE1AE1CEB0DFA00B68337 /* view */ = {
 			isa = PBXGroup;
 			children = (
-				19AFE1AF1CEB0DFA00B68337 /* YAHAssetCollectionViewCell.h */,
-				19AFE1B01CEB0DFA00B68337 /* YAHAssetCollectionViewCell.m */,
+				2CB1D2051FDA3B8B001FF7B9 /* IBView */,
+				2CB1D2001FDA3814001FF7B9 /* YAHAssetCollectionCell.h */,
+				2CB1D2011FDA3814001FF7B9 /* YAHAssetCollectionCell.m */,
+				2CB1D2021FDA3814001FF7B9 /* YAHAssetCollectionCell.xib */,
 				19AFE1B11CEB0DFA00B68337 /* YAHImagePickerGroupCell.h */,
 				19AFE1B21CEB0DFA00B68337 /* YAHImagePickerGroupCell.m */,
 				19AFE1B31CEB0DFA00B68337 /* YAHImagePickerThumbnailView.h */,
@@ -215,6 +237,15 @@
 				19AFE1B61CEB0DFA00B68337 /* YAHPreSelectAssetCell.m */,
 			);
 			path = view;
+			sourceTree = "<group>";
+		};
+		2CB1D2051FDA3B8B001FF7B9 /* IBView */ = {
+			isa = PBXGroup;
+			children = (
+				2CB1D2061FDA3B8B001FF7B9 /* GBView.h */,
+				2CB1D2071FDA3B8B001FF7B9 /* GBView.m */,
+			);
+			path = IBView;
 			sourceTree = "<group>";
 		};
 		40115B81933C4C02F4A334D1 /* Frameworks */ = {
@@ -241,12 +272,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1978D3371CEAF42000E85DD4 /* Build configuration list for PBXNativeTarget "ImagePickerDemo" */;
 			buildPhases = (
-				E3B268622CDCF8F74E30F357 /* Check Pods Manifest.lock */,
+				E3B268622CDCF8F74E30F357 /* [CP] Check Pods Manifest.lock */,
 				1978D31C1CEAF42000E85DD4 /* Sources */,
 				1978D31D1CEAF42000E85DD4 /* Frameworks */,
 				1978D31E1CEAF42000E85DD4 /* Resources */,
-				FD71E5A9CEE696D3A3A7C89E /* Embed Pods Frameworks */,
-				D75AF957BAB59E8BD8B1AB62 /* Copy Pods Resources */,
+				FD71E5A9CEE696D3A3A7C89E /* [CP] Embed Pods Frameworks */,
+				D75AF957BAB59E8BD8B1AB62 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -268,6 +299,8 @@
 				TargetAttributes = {
 					1978D31F1CEAF42000E85DD4 = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = 28T9NSVTY8;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -294,6 +327,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CB1D2041FDA3814001FF7B9 /* YAHAssetCollectionCell.xib in Resources */,
 				19AFE1C21CEB0DFA00B68337 /* CTAssetsPickerChecked@2x.png in Resources */,
 				19AFE1C31CEB0DFA00B68337 /* CTAssetsPickerVideo.png in Resources */,
 				19AFE1C41CEB0DFA00B68337 /* CTAssetsPickerVideo@2x.png in Resources */,
@@ -307,14 +341,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		D75AF957BAB59E8BD8B1AB62 /* Copy Pods Resources */ = {
+		D75AF957BAB59E8BD8B1AB62 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -322,29 +356,32 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ImagePickerDemo/Pods-ImagePickerDemo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E3B268622CDCF8F74E30F357 /* Check Pods Manifest.lock */ = {
+		E3B268622CDCF8F74E30F357 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ImagePickerDemo-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		FD71E5A9CEE696D3A3A7C89E /* Embed Pods Frameworks */ = {
+		FD71E5A9CEE696D3A3A7C89E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -359,6 +396,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CB1D1FD1FD946EB001FF7B9 /* YAHPhotoTools.m in Sources */,
+				2CB1D2031FDA3814001FF7B9 /* YAHAssetCollectionCell.m in Sources */,
 				19AFE1BD1CEB0DFA00B68337 /* NSDate+YAHTimeInterval.m in Sources */,
 				19AFE1C81CEB0DFA00B68337 /* YAHPreSelectAssetCell.m in Sources */,
 				1978D32B1CEAF42000E85DD4 /* ViewController.m in Sources */,
@@ -368,11 +407,13 @@
 				19AFE1B81CEB0DFA00B68337 /* YAHImagePickerRootViewController.m in Sources */,
 				19AFE1BA1CEB0DFA00B68337 /* YAHPreSelectAssetViewController.m in Sources */,
 				1978D3251CEAF42000E85DD4 /* main.m in Sources */,
+				2CB1D2081FDA3B8B001FF7B9 /* GBView.m in Sources */,
 				19AFE1C71CEB0DFA00B68337 /* YAHImagePickerThumbnailView.m in Sources */,
+				2CB1D1FA1FD912BF001FF7B9 /* YAHAlbumModel.m in Sources */,
 				19AFE1B71CEB0DFA00B68337 /* YAHImagePickerCollectionViewController.m in Sources */,
-				19AFE1C51CEB0DFA00B68337 /* YAHAssetCollectionViewCell.m in Sources */,
 				19AFE1BC1CEB0DFA00B68337 /* YAHImagePickerDefines.m in Sources */,
 				19AFE1BF1CEB0DFA00B68337 /* YAHPanddingButton.m in Sources */,
+				2CB1D20B1FDA7893001FF7B9 /* YAHPhotoModel.m in Sources */,
 				19AFE1B91CEB0DFA00B68337 /* YAHImagePickerViewController.m in Sources */,
 				19AFE1BE1CEB0DFA00B68337 /* UIImage+YAHRoundCorner.m in Sources */,
 				19AFE1BB1CEB0DFA00B68337 /* YAHImagePeckerAssetsData.m in Sources */,
@@ -488,11 +529,15 @@
 			baseConfigurationReference = 7B3052807335DDB7E2746981 /* Pods-ImagePickerDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 28T9NSVTY8;
 				INFOPLIST_FILE = ImagePickerDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = yahua.ImagePickerDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "8fe50043-d508-440d-a7f2-6935394f6be0";
+				PROVISIONING_PROFILE_SPECIFIER = "iOS development";
 			};
 			name = Debug;
 		};
@@ -501,11 +546,14 @@
 			baseConfigurationReference = 917ED82C6DC12795AEAB8ECC /* Pods-ImagePickerDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ImagePickerDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = yahua.ImagePickerDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};

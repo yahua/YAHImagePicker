@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <AssetsLibrary/AssetsLibrary.h>
+@class YAHAlbumModel;
 
 static const CGFloat YHImagePickerGroupCellHeight = 80.0f;
 
 @interface YAHImagePickerGroupCell : UITableViewCell
 
-@property (nonatomic, strong) ALAssetsGroup *assetsGroup;
+@property (nonatomic, strong) YAHAlbumModel *assetsGroup;
 
 @end

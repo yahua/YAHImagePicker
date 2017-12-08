@@ -7,13 +7,17 @@
 //
 
 #import "YAHImagePeckerAssetsData.h"
+#import "YAHPhotoTools.h"
+
 
 NSString *const kObserverSelectAssetsKeyPath		=		@"selectAssetsArray";
 
 @interface YAHImagePeckerAssetsData ()
 
-@property (nonatomic, strong) NSMutableArray *selectAssetsArray;
+@property (nonatomic, strong) NSMutableArray<YAHPhotoModel *> *selectAssetsArray;
 @property (nonatomic, copy) NSDictionary *changeDic;
+
+@property (nonatomic, strong) NSMutableArray<YAHAlbumModel *> *albums;
 
 @end
 
@@ -40,6 +44,11 @@ static YAHImagePeckerAssetsData *instance = nil;
     instance = nil;
 }
 
+- (void)dealloc
+{
+    
+}
+
 - (instancetype)init
 {
     self = [super init];
@@ -47,114 +56,69 @@ static YAHImagePeckerAssetsData *instance = nil;
         _selectAssetsArray = [NSMutableArray arrayWithCapacity:1];
         _maximumNumberOfSelection = 9;
         _filterType = YHImagePickerFilterTypePhotos;
+        _albums = [NSMutableArray arrayWithCapacity:1];
     }
     return self;
 }
 
 #pragma mark - Public
 
-- (void)loadGroupAssetsSuccessBlock:(void(^)(NSArray *groupAssets))successBlock
+- (void)loadGroupAssetsSuccessBlock:(void(^)(NSArray<YAHAlbumModel *> *groupAssets))successBlock
                        failureBlock:(void(^)(NSError *error))failBlock {
     
-    ALAssetsLibraryAccessFailureBlock failureBlock = ^(NSError *error) {
+    if (self.albums.count > 0) [self.albums removeAllObjects];
+    // 获取系统智能相册
+    PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
+    [smartAlbums enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(PHAssetCollection *collection, NSUInteger idx, BOOL * _Nonnull stop) {
+       
+        [self parsePHAssetCollection:collection];
+    }];
+    // 获取用户相册
+    PHFetchResult *userAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeSmartAlbumUserLibrary options:nil];
+    [userAlbums enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(PHAssetCollection *collection, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        NSString *errorMessage = nil;
-        switch ([error code]) {
-            case ALAssetsLibraryAccessUserDeniedError:
-            case ALAssetsLibraryAccessGloballyDeniedError:
-                errorMessage = @"The user has declined access to it.";
-                break;
-            default:
-                errorMessage = @"Reason unknown.";
-                break;
-        }
-        NSLog(@"%@", errorMessage);
-        if (failBlock) {
-            failBlock(error);
-        }
-    };
-    
-    __block NSMutableArray *groups = [NSMutableArray arrayWithCapacity:1];
-    ALAssetsLibraryGroupsEnumerationResultsBlock resultBlock = ^(ALAssetsGroup *group, BOOL *stop) {
-        
-        ALAssetsFilter *filter = [self assetsFilter];
-        [group setAssetsFilter:filter];
-        if ([group numberOfAssets] > 0) {
-            [groups addObject:group];
-        }else {
-            if (successBlock) {
-                successBlock(groups);
-            }
-        }
-    };
-    
-    NSUInteger groupTypes = ALAssetsGroupAlbum | ALAssetsGroupEvent | ALAssetsGroupFaces | ALAssetsGroupSavedPhotos;
-    [[self assetsLibrary] enumerateGroupsWithTypes:groupTypes usingBlock:resultBlock failureBlock:failureBlock];
-}
-
-- (void)loadAssetsWithGroup:(ALAssetsGroup *)assetsGroup
-                resultBlock:(void(^)(NSArray *assets))resultBlock {
-    
-    __block NSMutableArray *assets = [NSMutableArray arrayWithCapacity:1];
-    ALAssetsGroupEnumerationResultsBlock assetsEnumerationBlock = ^(ALAsset *result, NSUInteger index, BOOL *stop) {
-        
-        if (result) {
-            [assets addObject:result];
-        }else {
-            if (resultBlock) {
-                resultBlock([assets copy]);
-            }
-        }
-    };
-    
-    ALAssetsFilter *filter = [self assetsFilter];
-    [assetsGroup setAssetsFilter:filter];
-    [assetsGroup enumerateAssetsUsingBlock:assetsEnumerationBlock];
-}
-
-- (void)getSelectAssetsSuccessBlock:(void(^)(NSArray *assets))successBlock
-                       failureBlock:(void(^)(NSError *error))failBlock {
-    
-    __block NSMutableArray *assets = [NSMutableArray array];
-    void (^AssetsLibraryAssetForURLResultBlock)(ALAsset *asset) = ^(ALAsset *asset) {
-        // Add asset
-        [assets addObject:asset];
-        
-        // Check if the loading finished
-        if ([assets count] == [self.selectAssetsArray count]) {
-            
-            if (successBlock) {
-                successBlock([assets copy]);
-            }
-        }
-    };
-    
-    void (^AssetsLibraryAccessFailureBlock)(NSError *error) = ^(NSError *error) {
-        NSLog(@"Error: %@", [error localizedDescription]);
-        if (failBlock) {
-            failBlock(error);
-        }
-    };
-    
-    for (ALAsset *asset in self.selectAssetsArray) {
-        NSURL *selectedAssetURL = [asset valueForProperty:ALAssetPropertyAssetURL];
-        [[self assetsLibrary] assetForURL:selectedAssetURL
-                            resultBlock:AssetsLibraryAssetForURLResultBlock
-                           failureBlock:AssetsLibraryAccessFailureBlock];
+        [self parsePHAssetCollection:collection];
+    }];
+    if (successBlock) {
+        successBlock([self.albums copy]);
     }
 }
 
-- (BOOL)isContainAsset:(ALAsset *)asset {
+- (void)loadAssetsWithGroup:(YAHAlbumModel *)albumModel
+                resultBlock:(void(^)(NSArray<YAHPhotoModel *> *assets))resultBlock {
     
-    for (ALAsset *selectAsset in self.selectAssetsArray) {
+    __block NSMutableArray *assets = [NSMutableArray arrayWithCapacity:1];
+    [albumModel.result enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(PHAsset *asset, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        if (selectAsset == asset) {
+        YAHPhotoModel *model = [[YAHPhotoModel alloc] init];
+        model.asset = asset;
+        [assets addObject:model];
+    }];
+    if (resultBlock) {
+        resultBlock([assets copy]);
+    }
+}
+
+- (void)getSelectAssetsSuccessBlock:(void(^)(NSArray<YAHPhotoModel *> *assets))successBlock
+                       failureBlock:(void(^)(NSError *error))failBlock {
+
+    if (successBlock) {
+        successBlock([self.selectAssetsArray copy]);
+    }
+}
+
+- (BOOL)isContainAsset:(YAHPhotoModel *)asset {
+    
+    for (YAHPhotoModel *selectAsset in self.selectAssetsArray) {
+        
+        if (selectAsset.asset == asset.asset) {
             return YES;
         }
-        NSURL *selfUrl = [selectAsset defaultRepresentation].url;
-        NSURL *otherUrl = [asset defaultRepresentation].url;
         
-        if ([selfUrl isEqual:otherUrl]) {
+        NSString *selfIdentifier = selectAsset.asset.localIdentifier;
+        NSString *otherIdentifier = asset.asset.localIdentifier;
+        
+        if ([selfIdentifier isEqualToString:otherIdentifier]) {
             return YES;
         }
     }
@@ -162,7 +126,7 @@ static YAHImagePeckerAssetsData *instance = nil;
     return NO;
 }
 
-- (void)addAsset:(ALAsset *)asset {
+- (void)addAsset:(YAHPhotoModel *)asset {
     
     if (![self isContainAsset:asset]) {
         [self willChangeValueForKey:kObserverSelectAssetsKeyPath];
@@ -172,11 +136,11 @@ static YAHImagePeckerAssetsData *instance = nil;
     }
 }
 
-- (void)addAssetWithArray:(NSArray *)assets {
+- (void)addAssetWithArray:(NSArray<YAHPhotoModel *> *)assets {
     
     if ([assets count] > 0) {
         __block BOOL needKVO = NO;
-        [assets enumerateObjectsUsingBlock:^(ALAsset *asset, NSUInteger idx, BOOL *stop) {
+        [assets enumerateObjectsUsingBlock:^(YAHPhotoModel *asset, NSUInteger idx, BOOL *stop) {
             if (![self isContainAsset:asset]) {
                 needKVO = YES;
                 if (self.selectAssetsArray.count < self.maximumNumberOfSelection) {
@@ -192,19 +156,19 @@ static YAHImagePeckerAssetsData *instance = nil;
     }
 }
 
-- (void)removeAsset:(ALAsset *)asset {
+- (void)removeAsset:(YAHPhotoModel *)asset {
     
-    ALAsset *findAsset = nil;
-    for (ALAsset *selectAsset in self.selectAssetsArray) {
+    YAHPhotoModel *findAsset = nil;
+    for (YAHPhotoModel *selectAsset in self.selectAssetsArray) {
         
         if (selectAsset == asset) {
-            findAsset  = selectAsset;
+            findAsset = selectAsset;
             break;
         }
-        NSURL *selfUrl = [selectAsset defaultRepresentation].url;
-        NSURL *otherUrl = [asset defaultRepresentation].url;
+        NSString *selfIdentifier = selectAsset.asset.localIdentifier;
+        NSString *otherIdentifier = asset.asset.localIdentifier;
         
-        if ([selfUrl isEqual:otherUrl]) {
+        if ([selfIdentifier isEqualToString:otherIdentifier]) {
             findAsset = selectAsset;
             break;
         }
@@ -239,35 +203,33 @@ static YAHImagePeckerAssetsData *instance = nil;
 
 #pragma mark - Custom Accessors
 
-//全局存在，否则传出去的asset会失效
-- (ALAssetsLibrary *)assetsLibrary {
-    
-    static ALAssetsLibrary *assetsLibrary = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        assetsLibrary = [[ALAssetsLibrary alloc] init];
-        
-        // Workaround for triggering ALAssetsLibraryChangedNotification
-        //[assetsLibrary writeImageToSavedPhotosAlbum:nil metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) { }];
-    });
-    
-    return assetsLibrary;
-}
 
 #pragma mark - Private
 
-- (ALAssetsFilter *)assetsFilter {
+- (void)parsePHAssetCollection:(PHAssetCollection *)assetCollection {
     
-    switch (self.filterType) {
-        case YHImagePickerFilterTypePhotos:
-            return [ALAssetsFilter allPhotos];
-            break;
-        case YHImagePickerFilterTypeVideos:
-            return [ALAssetsFilter allVideos];
-            break;
-        default:
-            return [ALAssetsFilter allAssets];
-            break;
+    // 是否按创建时间排序
+    PHFetchOptions *option = [[PHFetchOptions alloc] init];
+    option.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
+    if (self.filterType == YHImagePickerFilterTypePhotos) {
+        option.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
+    }else if (self.filterType == YHImagePickerFilterTypeVideos) {
+        option.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeVideo];
+    }
+    // 获取相册照片集合
+    PHFetchResult *result = [PHAsset fetchAssetsInAssetCollection:assetCollection options:option];
+    // 过滤掉空相册
+    if (result.count > 0) {
+        YAHAlbumModel *albumModel = [[YAHAlbumModel alloc] init];
+        albumModel.count = result.count;
+        albumModel.albumName = [YAHPhotoTools transFormPhotoTitle:assetCollection.localizedTitle];
+        albumModel.result = result;
+        if ([albumModel.albumName isEqualToString:@"相机胶卷"] ||
+            [albumModel.albumName isEqualToString:@"所有照片"]) {
+            [self.albums insertObject:albumModel atIndex:0];
+        }else {
+            [self.albums addObject:albumModel];
+        }
     }
 }
 

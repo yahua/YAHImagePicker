@@ -23,13 +23,18 @@ UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) YAHPreSelectAssetViewController *preSelectCollectionViewController;
 
-@property (nonatomic, copy) NSArray *groups;
+@property (nonatomic, copy) NSArray<YAHAlbumModel *> *groups;
 
 @end
 
 @implementation YAHImagePickerViewController
 
 #pragma mark - View Lifecycle
+
+- (void)dealloc
+{
+    
+}
 
 - (instancetype)init
 {
@@ -101,7 +106,7 @@ UITableViewDataSource>
         cell = [[YAHImagePickerGroupCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    ALAssetsGroup *groupForCell = self.groups[indexPath.row];
+    YAHAlbumModel *groupForCell = self.groups[indexPath.row];
     [cell setAssetsGroup:groupForCell];
     
     return cell;
@@ -111,15 +116,8 @@ UITableViewDataSource>
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    ALAssetsGroup *groupForCell = self.groups[indexPath.row];
-    YAHImagePickerCollectionViewController *vc = [[YAHImagePickerCollectionViewController alloc] initWith:groupForCell];
-    __weak __typeof(self)weakSelf = self;
-    vc.sucessBlock = ^(){
-        
-        __strong __typeof(weakSelf)strongSelf = weakSelf;
-        [strongSelf done:nil];
-    };
-    [self.navigationController pushViewController:vc animated:YES];
+    YAHAlbumModel *groupForCell = self.groups[indexPath.row];
+    [self pushAlbumDetailVC:groupForCell animated:YES];
 }
 
 #pragma mark - Action
@@ -127,9 +125,9 @@ UITableViewDataSource>
 - (void)cancel:(id)sender {
     
     if (self.dismissBlock) {
-        [YAHImagePeckerAssetsData destroyInstance];
         self.dismissBlock();
     }
+    [YAHImagePeckerAssetsData destroyInstance];
 }
 
 - (void)done:(id)sender {
@@ -172,6 +170,9 @@ UITableViewDataSource>
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         strongSelf.groups = groupAssets;
         [strongSelf.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+        //默认显示所有照片
+        [strongSelf pushAlbumDetailVC:groupAssets.firstObject animated:NO];
+        
     } failureBlock:^(NSError *error) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         if (strongSelf.failureBlock) {
@@ -191,5 +192,19 @@ UITableViewDataSource>
     }];
 }
 
+- (void)pushAlbumDetailVC:(YAHAlbumModel *)model animated:(BOOL)animated {
+    
+    if (!model) {
+        return;
+    }
+    YAHImagePickerCollectionViewController *vc = [[YAHImagePickerCollectionViewController alloc] initWith:model];
+    __weak __typeof(self)weakSelf = self;
+    vc.sucessBlock = ^(){
+        
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        [strongSelf done:nil];
+    };
+    [self.navigationController pushViewController:vc animated:animated];
+}
 
 @end

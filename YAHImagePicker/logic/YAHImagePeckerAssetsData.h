@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <AssetsLibrary/AssetsLibrary.h>
+#import <Photos/Photos.h>
+#import "YAHAlbumModel.h"
+#import "YAHPhotoModel.h"
 
 /**
  *    kvo通知类型
@@ -49,7 +51,7 @@ typedef NS_ENUM(NSUInteger, YAHImagePickerFilterType) {
 
 #pragma mark - Property
 
-@property (nonatomic, strong, readonly) NSMutableArray *selectAssetsArray;
+@property (nonatomic, strong, readonly) NSMutableArray<YAHPhotoModel *> *selectAssetsArray;
 
 /**
  *  记录改变Assets
@@ -76,15 +78,15 @@ typedef NS_ENUM(NSUInteger, YAHImagePickerFilterType) {
  *  @param successBlock 成功的block
  *  @param failBlock    失败的block
  */
-- (void)loadGroupAssetsSuccessBlock:(void(^)(NSArray *groupAssets))successBlock
+- (void)loadGroupAssetsSuccessBlock:(void(^)(NSArray<YAHAlbumModel *> *groupAssets))successBlock
                        failureBlock:(void(^)(NSError *error))failBlock;
 /**
  *  从分组中读取照片信息
  *
  *  @param resultBlock 返回结果
  */
-- (void)loadAssetsWithGroup:(ALAssetsGroup *)assetsGroup
-                resultBlock:(void(^)(NSArray *assets))resultBlock;
+- (void)loadAssetsWithGroup:(YAHAlbumModel *)albumModel
+                resultBlock:(void(^)(NSArray<YAHPhotoModel *> *assets))resultBlock;
 
 /**
  *  获取选中的asset
@@ -92,20 +94,20 @@ typedef NS_ENUM(NSUInteger, YAHImagePickerFilterType) {
  *  @param successBlock 成功的block
  *  @param failBlock    失败的block
  */
-- (void)getSelectAssetsSuccessBlock:(void(^)(NSArray *assets))successBlock
+- (void)getSelectAssetsSuccessBlock:(void(^)(NSArray<YAHPhotoModel *> *assets))successBlock
                        failureBlock:(void(^)(NSError *error))failBlock;
 
 
 /**
  *  asset 是否已被选中
  */
-- (BOOL)isContainAsset:(ALAsset *)asset;
+- (BOOL)isContainAsset:(YAHPhotoModel *)asset;
 
-- (void)addAsset:(ALAsset *)asset;
+- (void)addAsset:(YAHPhotoModel *)asset;
 
-- (void)addAssetWithArray:(NSArray *)assets;
+- (void)addAssetWithArray:(NSArray<YAHPhotoModel *> *)assets;
 
-- (void)removeAsset:(ALAsset *)asset;
+- (void)removeAsset:(YAHPhotoModel *)asset;
 
 /**
  *  是否最少选中一个

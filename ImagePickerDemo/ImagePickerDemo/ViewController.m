@@ -12,8 +12,6 @@
 
 @interface ViewController ()
 
-@property (nonatomic, strong) YAHImagePickerRootViewController *picker;
-
 @property (nonatomic, copy) NSArray *selectAssets;
 
 @end
@@ -40,21 +38,21 @@
 
 - (void)clickDone {
     
-    self.picker = [[YAHImagePickerRootViewController alloc] init];
-    self.picker.selectAssets = self.selectAssets;
-    self.picker.imagePickerFilterType = YHImagePickerFilterTypePhotos;
-    self.picker.dismissBlock = ^(YAHImagePickerRootViewController *vc) {
+    YAHImagePickerRootViewController *picker = [[YAHImagePickerRootViewController alloc] init];
+    picker.selectAssets = self.selectAssets;
+    picker.imagePickerFilterType = YHImagePickerFilterTypePhotos;
+    picker.dismissBlock = ^(YAHImagePickerRootViewController *vc) {
         
         [vc dismissViewControllerAnimated:YES completion:nil];
     };
     __weak __typeof(self)weakSelf = self;
-    self.picker.sucessBlock = ^(YAHImagePickerRootViewController *vc, NSArray *assets) {
+    picker.sucessBlock = ^(YAHImagePickerRootViewController *vc, NSArray *assets) {
         
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         strongSelf.selectAssets = [assets copy];
         [vc dismissViewControllerAnimated:YES completion:nil];
     };
-    [self presentViewController:self.picker animated:YES completion:nil];
+    [self presentViewController:picker animated:YES completion:nil];
 }
 
 - (void)clickDone2 {

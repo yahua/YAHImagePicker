@@ -7,10 +7,13 @@
 //
 
 #import "YAHImagePickerThumbnailView.h"
+#import "YAHAlbumModel.h"
+#import "YAHPhotoModel.h"
+#import "YAHPhotoTools.h"
 
 @interface YAHImagePickerThumbnailView ()
 
-@property (nonatomic, copy) NSArray *thumbnailImages;
+@property (nonatomic, strong) UIImageView *imageView;
 
 @end
 
@@ -19,98 +22,48 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor whiteColor];
-        self.thumbnailMode = ThumbnailMultiple;
+        self.backgroundColor = [UIColor blackColor];
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        imageView.layer.masksToBounds = YES;
+        [self addSubview:imageView];
+        self.imageView = imageView;
     }
     return self;
 }
 
-- (CGSize)sizeThatFits:(CGSize)size {
-    
-    return CGSizeMake(70.0, 74.0);
-}
-
-- (void)drawRect:(CGRect)rect {
-    [super drawRect:rect];
-    
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetRGBFillColor(context, 1.0, 1.0, 1.0, 1.0);
-    
-    if (self.thumbnailMode == ThumbnailMultiple) {
-        if ([self.thumbnailImages count] >= 3) {
-            UIImage *thumbnailImage = [self.thumbnailImages objectAtIndex:2];
-            
-            CGRect thumbnailImageRect = CGRectMake(4.0, 0, 62.0, 62.0);
-            CGContextFillRect(context, thumbnailImageRect);
-            [thumbnailImage drawInRect:CGRectInset(thumbnailImageRect, 0.5, 0.5)];
-        }
-        
-        if ([self.thumbnailImages count] >= 2) {
-            UIImage *thumbnailImage = [self.thumbnailImages objectAtIndex:1];
-            
-            CGRect thumbnailImageRect = CGRectMake(2.0, 2.0, 66.0, 66.0);
-            CGContextFillRect(context, thumbnailImageRect);
-            [thumbnailImage drawInRect:CGRectInset(thumbnailImageRect, 0.5, 0.5)];
-        }
-    }
-    
-    if ([self.thumbnailImages count] >= 1) {
-        UIImage *thumbnailImage = [self.thumbnailImages objectAtIndex:0];
-        
-        CGRect thumbnailImageRect = CGRectMake(0, 4.0, 70.0, 70.0);
-        CGContextFillRect(context, thumbnailImageRect);
-        [thumbnailImage drawInRect:CGRectInset(thumbnailImageRect, 0.5, 0.5)];
-    }
-}
-
 #pragma mark - Custom Accessors
 
-- (void)setAssetsGroup:(ALAssetsGroup *)assetsGroup {
+- (void)setAssetsGroup:(YAHAlbumModel *)assetsGroup {
     
     if (!assetsGroup) {
         return;
     }
     
     _assetsGroup = assetsGroup;
-    
-    // 顺序将从最后一张开始计算（即显示最近一张照片开始，底下依次叠加最近第二张、第三张照片）
-    NSInteger count = [assetsGroup numberOfAssets];
-    NSIndexSet *indexs = nil;
-    if (count >= 3) {
-        indexs = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(count-3, 3)];
-    } else {
-        indexs = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, count)];
-    }
-    
-    // Extract three thumbnail images
-    NSMutableArray *thumbnailImages = [NSMutableArray array];
-    [assetsGroup enumerateAssetsAtIndexes:indexs
-                                  options:0
-                               usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
-                                   if (result) {
-                                       UIImage *thumbnailImage = [UIImage imageWithCGImage:[result thumbnail]];
-                                       [thumbnailImages insertObject:thumbnailImage atIndex:0];
-                                   } else {
-                                       // 相册无媒体对象
-                                       if (index == NSNotFound && [thumbnailImages count] == 0) {
-                                           [thumbnailImages addObject:[UIImage imageWithCGImage:[assetsGroup posterImage]]];
-                                       }
-                                   }
-                               }];
-    self.thumbnailImages = [thumbnailImages copy];
-    [self setNeedsDisplay];
+    YAHPhotoModel *model = [[YAHPhotoModel alloc] init];
+    model.asset = assetsGroup.result.lastObject;
+    self.asset = model;
 }
 
-- (void)setAsset:(ALAsset *)asset {
+- (void)setAsset:(YAHPhotoModel *)asset {
     
     if (!asset) {
         return;
     }
     _asset = asset;
     
-    UIImage *thumbnailImage = [UIImage imageWithCGImage:[asset thumbnail]];
-    self.thumbnailImages = @[thumbnailImage];
-    [self setNeedsDisplay];
+    if (asset.thumbImage) {
+        self.imageView.image = asset.thumbImage;
+    }else {
+        __weak __typeof(self)weakSelf = self;
+        [YAHPhotoTools getPhotoForPHAsset:asset.asset size:CGSizeMake(self.imageView.frame.size.width*1.4, self.imageView.frame.size.height*1.4) completion:^(UIImage *image, NSDictionary *info) {
+            
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            strongSelf.imageView.image = image;
+        }];
+    }
 }
 
 @end

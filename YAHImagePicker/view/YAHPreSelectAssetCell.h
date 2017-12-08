@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <AssetsLibrary/AssetsLibrary.h>
+#import "YAHPhotoModel.h"
 
 static const CGFloat YHPreSelectAssetCellWidth = 49;
 
 @interface YAHPreSelectAssetCell : UICollectionViewCell
 
-@property (nonatomic, strong) ALAsset *asset;
+@property (nonatomic, strong) YAHPhotoModel *asset;
 
 @end
