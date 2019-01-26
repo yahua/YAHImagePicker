@@ -7,13 +7,13 @@
 //
 
 #import "YAHAssetCollectionCell.h"
-#import "GBView.h"
+#import "YAHGradientView.h"
 #import "YAHPhotoTools.h"
 #import "NSDate+YAHTimeInterval.h"
 
 @interface YAHAssetCollectionCell ()
 
-@property (weak, nonatomic) IBOutlet GBView *videoDetailView;
+@property (weak, nonatomic) IBOutlet YAHGradientView *videoDetailView;
 @property (weak, nonatomic) IBOutlet UILabel *videoTimeLabel;
 @property (weak, nonatomic) IBOutlet UIView *hasSelectedView;
 

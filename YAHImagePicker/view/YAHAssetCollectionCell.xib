@@ -22,7 +22,7 @@
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jIA-1s-IwZ">
                         <rect key="frame" x="0.0" y="0.0" width="93" height="93"/>
                     </imageView>
-                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eNF-r6-cdt" userLabel="VideoDetailView" customClass="GBView">
+                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eNF-r6-cdt" userLabel="VideoDetailView" customClass="YAHGradientView">
                         <rect key="frame" x="0.0" y="74.5" width="93" height="18.5"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CTAssetsPickerVideo.png" translatesAutoresizingMaskIntoConstraints="NO" id="jWb-Yr-lxK">

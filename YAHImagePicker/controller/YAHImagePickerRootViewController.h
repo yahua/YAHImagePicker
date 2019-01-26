@@ -25,7 +25,7 @@
 @property (nonatomic, weak) id<YAHImagePickerRootViewControllerDelegate> delegate;
 @property (nonatomic, copy) void(^dismissBlock)(YAHImagePickerRootViewController *vc);
 @property (nonatomic, copy) void(^failureBlock)(YAHImagePickerRootViewController *vc, NSError *error);
-@property (nonatomic, copy) void(^sucessBlock)(YAHImagePickerRootViewController *vc, NSArray *assets);
+@property (nonatomic, copy) void(^sucessBlock)(YAHImagePickerRootViewController *vc, NSArray<YAHPhotoModel *> *assets);
 
 /**
  *  选中的asset（外部传入）， 读取的时候不是这个 使用sucessBlock回调读取选中的assets

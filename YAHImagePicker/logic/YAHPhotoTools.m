@@ -61,4 +61,71 @@
     return photoName;
 }
 
++ (PHImageRequestID)getAVAssetWithPHAsset:(PHAsset *)paAsset progressHandler:(void (^)(PHAsset *asset, double progress))progressHandler completion:(void(^)(PHAsset *asset, AVAsset *avasset))completion failed:(void(^)(PHAsset *asset, NSDictionary *info))failed {
+    
+    PHVideoRequestOptions *options = [[PHVideoRequestOptions alloc] init];
+    options.deliveryMode = PHVideoRequestOptionsDeliveryModeFastFormat;
+    options.networkAccessAllowed = NO;
+    PHImageRequestID requestId = 0;
+    requestId = [[PHImageManager defaultManager] requestAVAssetForVideo:paAsset options:options resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
+        BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey] && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue]);
+        if (downloadFinined && asset) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (completion) {
+                    completion(paAsset,asset);
+                }
+            });
+        }else {
+            if ([[info objectForKey:PHImageResultIsInCloudKey] boolValue] && ![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey]) {
+                PHImageRequestID cloudRequestId = 0;
+                PHVideoRequestOptions *cloudOptions = [[PHVideoRequestOptions alloc] init];
+                cloudOptions.deliveryMode = PHVideoRequestOptionsDeliveryModeMediumQualityFormat;
+                cloudOptions.networkAccessAllowed = YES;
+                cloudOptions.progressHandler = ^(double progress, NSError * _Nullable error, BOOL * _Nonnull stop, NSDictionary * _Nullable info) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if (progressHandler) {
+                            progressHandler(paAsset,progress);
+                        }
+                    });
+                };
+                cloudRequestId = [[PHImageManager defaultManager] requestAVAssetForVideo:paAsset options:cloudOptions resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
+                    BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey] && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue]);
+                    if (downloadFinined && asset) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            if (completion) {
+                                completion(paAsset,asset);
+                            }
+                        });
+                    }else {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            if (![[info objectForKey:PHImageCancelledKey] boolValue]) {
+                                //model.iCloudDownloading = NO;
+                            }
+                            if (failed) {
+                                failed(paAsset,info);
+                            }
+                        });
+                    }
+                }];
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    model.iCloudRequestID = cloudRequestId;
+//                    if (startRequestIcloud) {
+//                        startRequestIcloud(model,cloudRequestId);
+//                    }
+//                });
+            }else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (![[info objectForKey:PHImageCancelledKey] boolValue]) {
+                        //model.iCloudDownloading = NO;
+                    }
+                    if (failed) {
+                        failed(paAsset,info);
+                    }
+                });
+            }
+        }
+    }];
+    return requestId;
+}
+
 @end

@@ -6,14 +6,14 @@
 //  Copyright © 2016年 Go Brother. All rights reserved.
 //
 
-#import "GBView.h"
+#import "YAHGradientView.h"
 
-@interface GBLayer : CAGradientLayer
+@interface YAHGradientLayer : CAGradientLayer
 @property (nonatomic) CGColorRef startColor;
 @property (nonatomic) CGColorRef endColor;
 @end
 
-@implementation GBLayer
+@implementation YAHGradientLayer
 
 - (instancetype)init
 {
@@ -50,20 +50,20 @@
 
 
 
-@interface GBView ()
-@property (readonly) GBLayer *gbLayer;
+@interface YAHGradientView ()
+@property (readonly) YAHGradientLayer *gbLayer;
 @end
 
-@implementation GBView
+@implementation YAHGradientView
 
 + (Class)layerClass
 {
-    return [GBLayer class];
+    return [YAHGradientLayer class];
 }
 
-- (GBLayer *)gbLayer
+- (YAHGradientLayer *)gbLayer
 {
-    return (GBLayer *)self.layer;
+    return (YAHGradientLayer *)self.layer;
 }
 
 

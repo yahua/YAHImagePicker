@@ -34,7 +34,7 @@
 		2CB1D1FD1FD946EB001FF7B9 /* YAHPhotoTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CB1D1FC1FD946EB001FF7B9 /* YAHPhotoTools.m */; };
 		2CB1D2031FDA3814001FF7B9 /* YAHAssetCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CB1D2011FDA3814001FF7B9 /* YAHAssetCollectionCell.m */; };
 		2CB1D2041FDA3814001FF7B9 /* YAHAssetCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CB1D2021FDA3814001FF7B9 /* YAHAssetCollectionCell.xib */; };
-		2CB1D2081FDA3B8B001FF7B9 /* GBView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CB1D2071FDA3B8B001FF7B9 /* GBView.m */; };
+		2CB1D2081FDA3B8B001FF7B9 /* YAHGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CB1D2071FDA3B8B001FF7B9 /* YAHGradientView.m */; };
 		2CB1D20B1FDA7893001FF7B9 /* YAHPhotoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CB1D20A1FDA7893001FF7B9 /* YAHPhotoModel.m */; };
 		4589EB192A57C665AA7E4242 /* libPods-ImagePickerDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 069E13A4F852685B30B0A9F4 /* libPods-ImagePickerDemo.a */; };
 /* End PBXBuildFile section */
@@ -88,8 +88,8 @@
 		2CB1D2001FDA3814001FF7B9 /* YAHAssetCollectionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YAHAssetCollectionCell.h; sourceTree = "<group>"; };
 		2CB1D2011FDA3814001FF7B9 /* YAHAssetCollectionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YAHAssetCollectionCell.m; sourceTree = "<group>"; };
 		2CB1D2021FDA3814001FF7B9 /* YAHAssetCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YAHAssetCollectionCell.xib; sourceTree = "<group>"; };
-		2CB1D2061FDA3B8B001FF7B9 /* GBView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBView.h; sourceTree = "<group>"; };
-		2CB1D2071FDA3B8B001FF7B9 /* GBView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBView.m; sourceTree = "<group>"; };
+		2CB1D2061FDA3B8B001FF7B9 /* YAHGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YAHGradientView.h; sourceTree = "<group>"; };
+		2CB1D2071FDA3B8B001FF7B9 /* YAHGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YAHGradientView.m; sourceTree = "<group>"; };
 		2CB1D2091FDA7893001FF7B9 /* YAHPhotoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YAHPhotoModel.h; sourceTree = "<group>"; };
 		2CB1D20A1FDA7893001FF7B9 /* YAHPhotoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YAHPhotoModel.m; sourceTree = "<group>"; };
 		7B3052807335DDB7E2746981 /* Pods-ImagePickerDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImagePickerDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ImagePickerDemo/Pods-ImagePickerDemo.debug.xcconfig"; sourceTree = "<group>"; };
@@ -242,8 +242,8 @@
 		2CB1D2051FDA3B8B001FF7B9 /* IBView */ = {
 			isa = PBXGroup;
 			children = (
-				2CB1D2061FDA3B8B001FF7B9 /* GBView.h */,
-				2CB1D2071FDA3B8B001FF7B9 /* GBView.m */,
+				2CB1D2061FDA3B8B001FF7B9 /* YAHGradientView.h */,
+				2CB1D2071FDA3B8B001FF7B9 /* YAHGradientView.m */,
 			);
 			path = IBView;
 			sourceTree = "<group>";
@@ -299,7 +299,7 @@
 				TargetAttributes = {
 					1978D31F1CEAF42000E85DD4 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = 28T9NSVTY8;
+						DevelopmentTeam = W7FKHEHYPL;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -407,7 +407,7 @@
 				19AFE1B81CEB0DFA00B68337 /* YAHImagePickerRootViewController.m in Sources */,
 				19AFE1BA1CEB0DFA00B68337 /* YAHPreSelectAssetViewController.m in Sources */,
 				1978D3251CEAF42000E85DD4 /* main.m in Sources */,
-				2CB1D2081FDA3B8B001FF7B9 /* GBView.m in Sources */,
+				2CB1D2081FDA3B8B001FF7B9 /* YAHGradientView.m in Sources */,
 				19AFE1C71CEB0DFA00B68337 /* YAHImagePickerThumbnailView.m in Sources */,
 				2CB1D1FA1FD912BF001FF7B9 /* YAHAlbumModel.m in Sources */,
 				19AFE1B71CEB0DFA00B68337 /* YAHImagePickerCollectionViewController.m in Sources */,
@@ -530,14 +530,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 28T9NSVTY8;
+				DEVELOPMENT_TEAM = W7FKHEHYPL;
 				INFOPLIST_FILE = ImagePickerDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = yahua.ImagePickerDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8fe50043-d508-440d-a7f2-6935394f6be0";
-				PROVISIONING_PROFILE_SPECIFIER = "iOS development";
+				PROVISIONING_PROFILE = "dc6d48db-7eac-455e-a2b8-26dbc636264d";
+				PROVISIONING_PROFILE_SPECIFIER = iosalldevelopment;
 			};
 			name = Debug;
 		};

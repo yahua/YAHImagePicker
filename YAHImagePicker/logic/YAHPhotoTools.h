@@ -21,4 +21,9 @@
  */
 + (PHImageRequestID)getPhotoForPHAsset:(PHAsset *)asset size:(CGSize)size completion:(void(^)(UIImage *image,NSDictionary *info))completion;
 
+/**
+ 根据PHAsset对象获取视频信息   
+ */
++ (PHImageRequestID)getAVAssetWithPHAsset:(PHAsset *)asset progressHandler:(void (^)(PHAsset *asset, double progress))progressHandler completion:(void(^)(PHAsset *asset, AVAsset *avasset))completion failed:(void(^)(PHAsset *asset, NSDictionary *info))failed;
+
 @end

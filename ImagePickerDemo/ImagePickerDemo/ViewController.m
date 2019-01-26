@@ -9,6 +9,7 @@
 #import "ViewController.h"
 
 #import "YAHImagePickerRootViewController.h"
+#import "YAHPhotoTools.h"
 
 @interface ViewController ()
 
@@ -64,10 +65,18 @@
         [vc.view removeFromSuperview];
         [vc removeFromParentViewController];
     };
-    picker.sucessBlock = ^(YAHImagePickerRootViewController *vc, NSArray *assets) {
+    picker.sucessBlock = ^(YAHImagePickerRootViewController *vc, NSArray<YAHPhotoModel *> *assets) {
         
         [vc.view removeFromSuperview];
         [vc removeFromParentViewController];
+        [YAHPhotoTools getAVAssetWithPHAsset:assets.firstObject.asset progressHandler:^(PHAsset *asset, double progress) {
+            NSLog(@"download:%lf", progress);
+        } completion:^(PHAsset *asset, AVAsset *avasset) {
+            AVURLAsset *urlasset = (AVURLAsset *)avasset;
+            NSLog(@"avasset:%@", urlasset.URL);
+        } failed:^(PHAsset *asset, NSDictionary *info) {
+            NSLog(@"error:%@", info);
+        }];
     };
     [self.view addSubview:picker.view];
     [self addChildViewController:picker];
